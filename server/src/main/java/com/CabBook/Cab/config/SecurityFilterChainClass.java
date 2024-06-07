@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -19,7 +20,10 @@ import jakarta.servlet.http.HttpServletRequest;
 public class SecurityFilterChainClass {
 
   @Autowired
-  private final AuthenticationEntryPoint authenticationEntryPoint;
+  private AuthenticationEntryPoint authenticationEntryPoint;
+
+  @Autowired
+  private JwtAuthenticationFilter jwtAuthenticationFilter;
 
   @Bean
   private SecurityFilterChain securityFilterChain(HttpSecurity https) throws Exception {
@@ -44,6 +48,8 @@ public class SecurityFilterChainClass {
     }));
 
     https.exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(authenticationEntryPoint));
+
+    https.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
     return https.build();
   }
