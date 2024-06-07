@@ -30,7 +30,9 @@ public class SecurityFilterChainClass {
     https.sessionManagement(sessionManage -> sessionManage.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
     https.csrf(csrfConfig -> csrfConfig.disable());
 
-    https.authorizeHttpRequests(authConfig -> authConfig.requestMatchers("/api/auth**").permitAll()
+    https.authorizeHttpRequests(authConfig -> authConfig.requestMatchers("/api/auth/**").permitAll()
+        .requestMatchers("/swagger-ul/**", "/").permitAll()
+        .requestMatchers("/ws/**").permitAll()
         .anyRequest().authenticated());
 
     https.cors(corsConfig -> corsConfig.configurationSource(new CorsConfigurationSource() {

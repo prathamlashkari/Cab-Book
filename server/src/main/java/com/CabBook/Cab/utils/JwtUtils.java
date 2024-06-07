@@ -9,7 +9,9 @@ import java.util.UUID;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -24,8 +26,6 @@ public class JwtUtils {
 
   private static final String SECRET_KEY_STRING = "ksjfniqhwiotkcjxnvklndfoisiowqerijasdnfjsdhfjgknvmeior";
   private static final String ISSUER = "code-with-Golu";
-
-  // Create a SecretKey object from the secret key string
   private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(SECRET_KEY_STRING.getBytes());
 
   public static boolean validateToken(String jwtToken) {
@@ -50,22 +50,30 @@ public class JwtUtils {
     return Optional.empty();
   }
 
-  public String populateAuthorities(Collection<? extends GrantedAuthority> colleciton) {
+  private static String convertAuthoritiesToString(Collection<? extends GrantedAuthority> collection) {
     Set<String> authoritySet = new HashSet<>();
-    for (GrantedAuthority authority : colleciton) {
+    for (GrantedAuthority authority : collection) {
       authoritySet.add(authority.getAuthority());
     }
     return String.join(",", authoritySet);
   }
 
   public static String generateToken(String email) {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication == null) {
+      throw new IllegalStateException("No authentication information found in security context.");
+    }
+
+    String authorities = convertAuthoritiesToString(authentication.getAuthorities());
     var date = new Date();
+
     return Jwts.builder()
         .setId(UUID.randomUUID().toString())
         .setIssuer(ISSUER)
         .setSubject(email)
         .setIssuedAt(date)
-        .setExpiration(new Date(new Date().getTime() + 864000000))
+        .claim("authorities", authorities)
+        .setExpiration(new Date(date.getTime() + 864000000)) // 10 days
         .signWith(SECRET_KEY)
         .compact();
   }
