@@ -1,12 +1,15 @@
-package com.CabBook.Cab;
+package com.CabBook.Cab.utils;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
-import org.apache.commons.lang3.time.DateUtils;
-
 import javax.crypto.SecretKey;
+
+import org.springframework.security.core.GrantedAuthority;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -47,15 +50,22 @@ public class JwtUtils {
     return Optional.empty();
   }
 
+  public String populateAuthorities(Collection<? extends GrantedAuthority> colleciton) {
+    Set<String> authoritySet = new HashSet<>();
+    for (GrantedAuthority authority : colleciton) {
+      authoritySet.add(authority.getAuthority());
+    }
+    return String.join(",", authoritySet);
+  }
+
   public static String generateToken(String email) {
     var date = new Date();
-    var expiration = DateUtils.addMinutes(date, 10);
     return Jwts.builder()
         .setId(UUID.randomUUID().toString())
         .setIssuer(ISSUER)
         .setSubject(email)
         .setIssuedAt(date)
-        .setExpiration(expiration)
+        .setExpiration(new Date(new Date().getTime() + 864000000))
         .signWith(SECRET_KEY)
         .compact();
   }
