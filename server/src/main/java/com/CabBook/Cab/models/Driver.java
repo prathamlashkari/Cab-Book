@@ -3,6 +3,7 @@ package com.CabBook.Cab.models;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.CabBook.Cab.enums.UserRole;
@@ -29,7 +30,11 @@ public class Driver {
 
   private String liscenseId;
 
+  @DBRef
   private List<Ride> rides;
-  private Vehicle vehicle;
+  private String vehicleId;
+  @DBRef
+  private Ride currRide;
+  private Integer totalRevenuse = 0;
 
 }
