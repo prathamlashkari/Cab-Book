@@ -25,6 +25,6 @@ public class User {
   private String mobile;
   private String password;
   private String profilePicture;
-  private UserRole userRole;
+  private UserRole role;
 
 }

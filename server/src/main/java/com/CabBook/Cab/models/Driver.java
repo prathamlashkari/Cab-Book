@@ -22,6 +22,9 @@ public class Driver {
   private double rating;
   private double longitude;
   private double latitude;
-  private UserRole userRole;
+  private UserRole role;
   private String password;
+
+  private String liscenseId;
+
 }
