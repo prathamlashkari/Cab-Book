@@ -1,5 +1,7 @@
 package com.CabBook.Cab.models;
 
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -26,5 +28,8 @@ public class Driver {
   private String password;
 
   private String liscenseId;
+
+  private List<Ride> rides;
+  private Vehicle vehicle;
 
 }
