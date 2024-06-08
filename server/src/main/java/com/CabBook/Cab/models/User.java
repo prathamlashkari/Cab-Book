@@ -7,8 +7,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.CabBook.Cab.enums.UserRole;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @Document(collection = "users")
 public class User {
 
