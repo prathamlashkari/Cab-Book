@@ -18,6 +18,7 @@ import com.CabBook.Cab.repository.DriverRepository;
 import com.CabBook.Cab.repository.UserRepository;
 import com.CabBook.Cab.request.SignupRequest;
 import com.CabBook.Cab.response.JwtResponse;
+import com.CabBook.Cab.utils.JwtUtils;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -54,6 +55,17 @@ public class AuthController {
     Authentication authentication = new UsernamePasswordAuthenticationToken(savedUser.getEmail(),
         savedUser.getPassword());
     SecurityContextHolder.getContext().setAuthentication(authentication);
+
+    String jwt = JwtUtils.generateToken(email);
+
+    JwtResponse res = new JwtResponse();
+    res.setJwt(jwt);
+    res.setAuthenticated(true);
+    res.setError(false);
+    res.setErrorDetails(null);
+    res.setRole(UserRole.USER);
+    res.setMessage("Account created successfully");
+
     return null;
   }
 }
