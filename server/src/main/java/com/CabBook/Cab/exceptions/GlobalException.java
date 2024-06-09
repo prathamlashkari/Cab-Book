@@ -17,4 +17,22 @@ public class GlobalException {
     return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
   }
 
+  @ExceptionHandler(DriverException.class)
+  public ResponseEntity<ErrorDetails> DriverExceptionHandler(DriverException ue, WebRequest req) {
+    ErrorDetails err = new ErrorDetails(ue.getMessage(), req.getDescription(false), LocalDateTime.now());
+    return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(RideException.class)
+  public ResponseEntity<ErrorDetails> rideExceptionHandler(RideException ue, WebRequest req) {
+    ErrorDetails err = new ErrorDetails(ue.getMessage(), req.getDescription(false), LocalDateTime.now());
+    return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<ErrorDetails> otherExceptionHandler(Exception ue, WebRequest req) {
+    ErrorDetails err = new ErrorDetails(ue.getMessage(), req.getDescription(false), LocalDateTime.now());
+    return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
+  }
+
 }
