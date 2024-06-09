@@ -3,9 +3,9 @@ package com.CabBook.Cab.repository;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-import com.CabBook.Cab.models.User;
+import com.CabBook.Cab.models.Driver;
 
 @Repository
-public interface UserRepository extends MongoRepository<User, String> {
-  public User findByEmail(String email);
+public interface DriverRepository extends MongoRepository<Driver, String> {
+  public Driver findByEmail(String email);
 }
