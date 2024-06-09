@@ -39,5 +39,5 @@ public class Ride {
   private LocalDateTime endTime;
   private int opt;
 
-  private PaymentDetails paymentDetails = new PaymentDetails<>();
+  private PaymentDetails paymentDetails = new PaymentDetails();
 }
