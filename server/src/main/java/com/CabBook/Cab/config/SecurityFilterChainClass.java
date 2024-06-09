@@ -26,7 +26,7 @@ public class SecurityFilterChainClass {
   private JwtAuthenticationFilter jwtAuthenticationFilter;
 
   @Bean
-  private SecurityFilterChain securityFilterChain(HttpSecurity https) throws Exception {
+  public SecurityFilterChain securityFilterChain(HttpSecurity https) throws Exception {
     https.sessionManagement(sessionManage -> sessionManage.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
     https.csrf(csrfConfig -> csrfConfig.disable());
 

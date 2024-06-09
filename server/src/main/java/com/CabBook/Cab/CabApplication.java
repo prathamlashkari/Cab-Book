@@ -8,8 +8,8 @@ public class CabApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CabApplication.class, args);
-		System.out.println("STarted");
-	
+		System.out.println("Started");
+
 	}
 
 }

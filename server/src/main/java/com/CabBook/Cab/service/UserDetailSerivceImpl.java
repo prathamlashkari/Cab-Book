@@ -36,6 +36,6 @@ public class UserDetailSerivceImpl implements UserDetailsService {
       return new org.springframework.security.core.userdetails.User(driver.getFullName(), driver.getPassword(),
           authorities);
     }
-    return null;
+    throw new UsernameNotFoundException("User not found");
   }
 }
