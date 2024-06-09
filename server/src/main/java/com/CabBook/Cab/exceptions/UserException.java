@@ -1,4 +1,4 @@
-package com.CabBook.Cab.exceptions;
+package com.CabBook.cab.exceptions;
 
 public class UserException extends Exception {
 

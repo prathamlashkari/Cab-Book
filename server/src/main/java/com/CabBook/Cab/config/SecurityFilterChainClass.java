@@ -1,4 +1,4 @@
-package com.CabBook.Cab.config;
+package com.CabBook.cab.config;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -37,7 +37,7 @@ public class SecurityFilterChainClass {
 
     https.cors(corsConfig -> corsConfig.configurationSource(new CorsConfigurationSource() {
       @Override
-      public CorsConfiguration getCorsConfiguration(HttpServletRequest req) {
+      public CorsConfiguration getCorsConfiguration(@SuppressWarnings("null") HttpServletRequest req) {
         CorsConfiguration cfg = new CorsConfiguration();
         cfg.setAllowedHeaders(Collections.singletonList("*"));
         cfg.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:5173"));

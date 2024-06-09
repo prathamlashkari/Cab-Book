@@ -1,4 +1,4 @@
-package com.CabBook.Cab.config;
+package com.CabBook.cab.config;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.CabBook.Cab.utils.JwtUtils;
+import com.CabBook.cab.utils.JwtUtils;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -27,6 +27,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   @Autowired
   private UserDetailsService userDetailsService;
 
+  @SuppressWarnings("null")
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {

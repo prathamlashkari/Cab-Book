@@ -1,6 +1,6 @@
-package com.CabBook.Cab.response;
+package com.CabBook.cab.response;
 
-import com.CabBook.Cab.enums.UserRole;
+import com.CabBook.cab.enums.UserRole;
 
 import lombok.Data;
 

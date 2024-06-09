@@ -1,4 +1,4 @@
-package com.CabBook.Cab.models;
+package com.CabBook.cab.models;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.CabBook.Cab.enums.UserRole;
+import com.CabBook.cab.enums.UserRole;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

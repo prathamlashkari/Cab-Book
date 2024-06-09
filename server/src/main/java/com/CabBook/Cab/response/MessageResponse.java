@@ -1,4 +1,4 @@
-package com.CabBook.Cab.response;
+package com.CabBook.cab.response;
 
 import lombok.Data;
 

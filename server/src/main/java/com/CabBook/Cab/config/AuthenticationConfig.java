@@ -1,4 +1,4 @@
-package com.CabBook.Cab.config;
+package com.CabBook.cab.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

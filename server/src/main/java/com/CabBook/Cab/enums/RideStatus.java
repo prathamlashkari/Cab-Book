@@ -1,4 +1,4 @@
-package com.CabBook.Cab.enums;
+package com.CabBook.cab.enums;
 
 public enum RideStatus {
   ACCEPTED,

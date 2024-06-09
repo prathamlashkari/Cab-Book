@@ -1,4 +1,4 @@
-package com.CabBook.Cab.models;
+package com.CabBook.cab.models;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.CabBook.Cab.enums.RideStatus;
+import com.CabBook.cab.enums.RideStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,10 +1,10 @@
-package com.CabBook.Cab.models;
+package com.CabBook.cab.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.CabBook.Cab.enums.UserRole;
+import com.CabBook.cab.enums.UserRole;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

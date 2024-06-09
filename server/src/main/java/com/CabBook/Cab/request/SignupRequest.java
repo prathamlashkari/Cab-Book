@@ -1,4 +1,4 @@
-package com.CabBook.Cab.request;
+package com.CabBook.cab.request;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

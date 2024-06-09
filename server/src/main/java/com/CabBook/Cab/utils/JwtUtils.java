@@ -1,4 +1,4 @@
-package com.CabBook.Cab.utils;
+package com.CabBook.cab.utils;
 
 import java.util.Collection;
 import java.util.Date;
@@ -73,7 +73,7 @@ public class JwtUtils {
         .setSubject(email)
         .setIssuedAt(date)
         .claim("authorities", authorities)
-        .setExpiration(new Date(date.getTime() + 864000000)) // 10 days
+        .setExpiration(new Date(date.getTime() + 864000000))
         .signWith(SECRET_KEY)
         .compact();
   }

@@ -1,6 +1,6 @@
-package com.CabBook.Cab.models;
+package com.CabBook.cab.models;
 
-import com.CabBook.Cab.enums.PaymentStatus;
+import com.CabBook.cab.enums.PaymentStatus;
 
 import lombok.Data;
 

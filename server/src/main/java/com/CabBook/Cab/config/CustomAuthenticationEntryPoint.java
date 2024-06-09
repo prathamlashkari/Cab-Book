@@ -1,4 +1,4 @@
-package com.CabBook.Cab.config;
+package com.CabBook.cab.config;
 
 import java.io.IOException;
 
