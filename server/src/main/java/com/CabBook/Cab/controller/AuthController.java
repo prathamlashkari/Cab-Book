@@ -32,6 +32,11 @@ public class AuthController {
     if (user != null) {
       throw new UserException("User Already Exists With this email");
     }
+    User newUser = new User();
+    newUser.setFullName(name);
+    newUser.setEmail(email);
+    newUser.setPassword(password);
+    newUser.setMobile(mobile);
 
     return null;
   }
