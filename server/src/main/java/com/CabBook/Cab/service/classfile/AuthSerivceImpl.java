@@ -10,7 +10,6 @@ import com.CabBook.cab.enums.UserRole;
 import com.CabBook.cab.exceptions.UserException;
 import com.CabBook.cab.models.User;
 import com.CabBook.cab.repository.DriverRepository;
-import com.CabBook.cab.request.DriversSignupRequest;
 import com.CabBook.cab.request.LoginRequest;
 import com.CabBook.cab.request.SignupRequest;
 import com.CabBook.cab.service.interfacefile.AuthService;

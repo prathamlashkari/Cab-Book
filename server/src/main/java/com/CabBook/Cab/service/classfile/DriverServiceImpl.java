@@ -21,7 +21,6 @@ import com.CabBook.cab.repository.VehicleRepository;
 import com.CabBook.cab.request.DriversSignupRequest;
 import com.CabBook.cab.service.interfacefile.DriverService;
 import com.CabBook.cab.utils.Calculator;
-import com.CabBook.cab.utils.JwtUtils;
 
 @Service
 public class DriverServiceImpl implements DriverService {
@@ -31,7 +30,6 @@ public class DriverServiceImpl implements DriverService {
     private Calculator distanceCalculater;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    private JwtUtils jwtUtils;
     @Autowired
     private VehicleRepository vehicleRepository;
     @Autowired
@@ -94,7 +92,20 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public Driver findNearesetDriver(List<Driver> availableDrivers, double pickupLatitude, double pickupLongitude) {
-        throw new UnsupportedOperationException("Unimplemented method 'findNearesetDriver'");
+
+        double min = Double.MAX_VALUE;
+        Driver nearestDriver = null;
+        for (Driver driver : availableDrivers) {
+            double driverLatitude = driver.getLatitude();
+            double driverLongitude = driver.getLongitude();
+            double distance = distanceCalculater.calculateDistance(pickupLatitude, pickupLongitude, driverLatitude,
+                    driverLongitude);
+            if (min > distance) {
+                min = distance;
+                nearestDriver = driver;
+            }
+        }
+        return nearestDriver;
     }
 
     @Override
