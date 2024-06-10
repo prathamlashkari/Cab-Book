@@ -21,6 +21,7 @@ import com.CabBook.cab.repository.VehicleRepository;
 import com.CabBook.cab.request.DriversSignupRequest;
 import com.CabBook.cab.service.interfacefile.DriverService;
 import com.CabBook.cab.utils.Calculator;
+import com.CabBook.cab.utils.JwtUtils;
 
 @Service
 public class DriverServiceImpl implements DriverService {
@@ -110,12 +111,20 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public Driver getReqDriverProfile(String jwt) throws DriverException {
-        throw new UnsupportedOperationException("Unimplemented method 'getReqDriverProfile'");
+
+        String email = JwtUtils.generateToken(jwt);
+        Driver driver = driverRepository.findByEmail(email);
+        if (driver == null) {
+            throw new DriverException("Driver not found");
+        }
+        return driver;
     }
 
     @Override
     public Ride getDrirversCurrentRide(String driverId) throws DriverException {
-        throw new UnsupportedOperationException("Unimplemented method 'getDrirversCurrentRide'");
+
+        Driver driver = findDriverById(driverId);
+        return driver.getCurrRide();
     }
 
     @Override
