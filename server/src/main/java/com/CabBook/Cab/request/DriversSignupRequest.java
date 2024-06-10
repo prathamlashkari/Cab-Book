@@ -13,8 +13,8 @@ public class DriversSignupRequest {
   private String name;
   private String email;
   private String mobile;
-  private String latitude;
-  private String longitude;
+  private double latitude;
+  private double longitude;
   private String password;
 
   private License license;

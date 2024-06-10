@@ -6,9 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.CabBook.cab.enums.UserRole;
 import com.CabBook.cab.exceptions.DriverException;
 import com.CabBook.cab.models.Driver;
+import com.CabBook.cab.models.License;
 import com.CabBook.cab.models.Ride;
+import com.CabBook.cab.models.Vehicle;
 import com.CabBook.cab.repository.DriverRepository;
 import com.CabBook.cab.repository.LicenseRepository;
 import com.CabBook.cab.repository.RideRepository;
@@ -36,7 +39,31 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public Driver registerDriver(DriversSignupRequest req) {
-        throw new UnsupportedOperationException("Unimplemented method 'registerDriver'");
+
+        License savdLicense = licenseRepository.save(req.getLicense());
+
+        Vehicle savedVehicle = vehicleRepository.save(req.getVehicle());
+
+        Driver driver = new Driver();
+        driver.setEmail(req.getEmail());
+        driver.setFullName(req.getName());
+        driver.setMobile(req.getMobile());
+        driver.setPassword(passwordEncoder.encode(req.getPassword()));
+        driver.setRole(UserRole.DRIVER);
+        driver.setLatitude(req.getLatitude());
+        driver.setLongitude(req.getLongitude());
+        driver.setLiscenseId(savdLicense.getId());
+        driver.setVehicleId(savedVehicle.getId());
+
+        Driver savedDriver = driverRepository.save(driver);
+
+        savdLicense.setDriverId(savedDriver.getId());
+        savedVehicle.setDriverId(savedDriver.getId());
+
+        licenseRepository.save(savdLicense);
+        vehicleRepository.save(savedVehicle);
+        return driver;
+
     }
 
     @Override
