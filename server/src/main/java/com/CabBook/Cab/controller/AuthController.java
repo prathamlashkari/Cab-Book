@@ -3,12 +3,15 @@ package com.CabBook.cab.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.CabBook.cab.enums.UserRole;
 import com.CabBook.cab.models.Driver;
 import com.CabBook.cab.repository.DriverRepository;
 import com.CabBook.cab.request.DriversSignupRequest;
@@ -16,6 +19,7 @@ import com.CabBook.cab.request.LoginRequest;
 import com.CabBook.cab.request.SignupRequest;
 import com.CabBook.cab.response.JwtResponse;
 import com.CabBook.cab.service.interfacefile.AuthService;
+import com.CabBook.cab.service.interfacefile.DriverService;
 import com.CabBook.cab.utils.JwtUtils;
 
 @RestController
@@ -23,6 +27,7 @@ import com.CabBook.cab.utils.JwtUtils;
 public class AuthController {
 
   private AuthService authService;
+  private DriverService driverService;
   @Autowired
   private DriverRepository driverRepository;
 
@@ -51,8 +56,19 @@ public class AuthController {
       response.setError(true);
       return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+    Driver createdDriver = driverService.registerDriver(req);
+    Authentication authentication = new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword());
 
-    return null;
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+    String jwt = JwtUtils.generateToken(req.getEmail());
+    response.setJwt(jwt);
+    response.setAuthenticated(true);
+    response.setError(false);
+    response.setErrorDetails(null);
+    response.setRole(UserRole.USER);
+    response.setMessage("Singup Successfully");
+
+    return new ResponseEntity<JwtResponse>(response, HttpStatus.ACCEPTED);
   }
 
 }
