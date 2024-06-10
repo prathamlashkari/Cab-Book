@@ -1,5 +1,8 @@
 package com.CabBook.cab.request;
 
+import com.CabBook.cab.models.License;
+import com.CabBook.cab.models.Vehicle;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +17,6 @@ public class DriversSignupRequest {
   private String longitude;
   private String password;
 
-  private String licneseId;
-  private String vehicleId;
+  private License license;
+  private Vehicle vehicle;
 }

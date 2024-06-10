@@ -1,5 +1,8 @@
 package com.CabBook.cab.utils;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class Calculator {
 
   private static final int Earth_Radius = 6371;
@@ -14,5 +17,16 @@ public class Calculator {
     double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     double distance = Earth_Radius * c;
     return distance;
+  }
+
+  public long calculateDuration(LocalDateTime startTime, LocalDateTime endTime) {
+    Duration duration = Duration.between(startTime, endTime);
+    return duration.getSeconds();
+  }
+
+  public double calculateFare(double distance) {
+    double baseFare = 11;
+    double totalFare = baseFare * distance;
+    return totalFare;
   }
 }
