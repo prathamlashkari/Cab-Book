@@ -3,8 +3,10 @@ package com.CabBook.cab.response;
 import com.CabBook.cab.enums.UserRole;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class JwtResponse {
 
   private String jwt;

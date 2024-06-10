@@ -9,9 +9,14 @@ import java.util.UUID;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import com.CabBook.cab.enums.UserRole;
+import com.CabBook.cab.response.JwtResponse;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -76,5 +81,18 @@ public class JwtUtils {
         .setExpiration(new Date(date.getTime() + 864000000))
         .signWith(SECRET_KEY)
         .compact();
+  }
+
+  public static ResponseEntity<JwtResponse> response(Authentication authentication, String email, String msg) {
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+    String jwt = generateToken(email);
+    JwtResponse res = new JwtResponse();
+    res.setJwt(jwt);
+    res.setAuthenticated(true);
+    res.setError(false);
+    res.setErrorDetails(null);
+    res.setRole(UserRole.USER);
+    res.setMessage(msg);
+    return new ResponseEntity<>(res, HttpStatus.ACCEPTED);
   }
 }
