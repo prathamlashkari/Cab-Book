@@ -1,12 +1,9 @@
 package com.CabBook.cab.service.classfile;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.CabBook.cab.enums.UserRole;
@@ -15,9 +12,7 @@ import com.CabBook.cab.models.User;
 import com.CabBook.cab.repository.DriverRepository;
 import com.CabBook.cab.request.LoginRequest;
 import com.CabBook.cab.request.SignupRequest;
-import com.CabBook.cab.response.JwtResponse;
 import com.CabBook.cab.service.interfacefile.AuthService;
-import com.CabBook.cab.utils.JwtUtils;
 
 public class AuthSerivceImpl implements AuthService {
 

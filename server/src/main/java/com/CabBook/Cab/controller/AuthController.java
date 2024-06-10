@@ -25,10 +25,9 @@ public class AuthController {
   @PostMapping("/signup")
   public ResponseEntity<JwtResponse> signUpHandler(@RequestBody SignupRequest req) throws Exception {
     Authentication authentication = authService.signUp(req);
+
     SecurityContextHolder.getContext().setAuthentication(authentication);
-
     String jwt = JwtUtils.generateToken(req.getEmail());
-
     JwtResponse res = new JwtResponse();
     res.setJwt(jwt);
     res.setAuthenticated(true);
@@ -36,7 +35,6 @@ public class AuthController {
     res.setErrorDetails(null);
     res.setRole(UserRole.USER);
     res.setMessage("Account created successfully");
-
     return new ResponseEntity<>(res, HttpStatus.ACCEPTED);
   }
 
@@ -57,4 +55,5 @@ public class AuthController {
     res.setMessage("Login successfully");
     return new ResponseEntity<>(res, HttpStatus.ACCEPTED);
   }
+
 }
