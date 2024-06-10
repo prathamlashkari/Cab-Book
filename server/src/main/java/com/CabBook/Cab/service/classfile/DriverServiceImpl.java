@@ -1,11 +1,13 @@
 package com.CabBook.cab.service.classfile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.CabBook.cab.enums.RideStatus;
 import com.CabBook.cab.enums.UserRole;
 import com.CabBook.cab.exceptions.DriverException;
 import com.CabBook.cab.models.Driver;
@@ -63,12 +65,31 @@ public class DriverServiceImpl implements DriverService {
         licenseRepository.save(savdLicense);
         vehicleRepository.save(savedVehicle);
         return driver;
-
     }
 
     @Override
     public List<Driver> getAvailableDrivers(double pickupLatitude, double pickupLongitude, double radius, Ride ride) {
-        throw new UnsupportedOperationException("Unimplemented method 'getAvailableDrivers'");
+
+        List<Driver> allList = driverRepository.findAll();
+        List<Driver> availabDrivers = new ArrayList<>();
+
+        for (Driver driver : allList) {
+            if (driver.getCurrRide() != null && driver.getCurrRide().getStatus() != RideStatus.COMPLETED) {
+                continue;
+            }
+            if (ride.getDeclinedDrivers().contains(driver.getId())) {
+                continue;
+            }
+            double dirverLatitude = driver.getLatitude();
+            double driverLongitude = driver.getLongitude();
+
+            double distance = distanceCalculater.calculateDistance(dirverLatitude, driverLongitude, pickupLatitude,
+                    pickupLongitude);
+            if (distance <= radius) {
+                availabDrivers.add(driver);
+            }
+        }
+        return availabDrivers;
     }
 
     @Override
