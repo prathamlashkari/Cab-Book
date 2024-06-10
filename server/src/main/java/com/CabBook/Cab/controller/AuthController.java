@@ -57,10 +57,11 @@ public class AuthController {
       return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
     Driver createdDriver = driverService.registerDriver(req);
-    Authentication authentication = new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword());
+    Authentication authentication = new UsernamePasswordAuthenticationToken(createdDriver.getEmail(),
+        createdDriver.getPassword());
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
-    String jwt = JwtUtils.generateToken(req.getEmail());
+    String jwt = JwtUtils.generateToken(createdDriver.getEmail());
     response.setJwt(jwt);
     response.setAuthenticated(true);
     response.setError(false);
