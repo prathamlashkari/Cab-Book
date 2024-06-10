@@ -32,7 +32,7 @@ public class AuthSerivceImpl implements AuthService {
   private AuthenticationManager authenticationManager;
 
   @Override
-  public ResponseEntity<JwtResponse> signUp(SignupRequest req) throws Exception {
+  public Authentication signUp(SignupRequest req) throws Exception {
     String email = req.getEmail();
     String name = req.getName();
     String password = req.getPassword();
@@ -51,43 +51,17 @@ public class AuthSerivceImpl implements AuthService {
     createdUser.setRole(UserRole.USER);
 
     User savedUser = userRepository.save(createdUser);
-    Authentication authentication = new UsernamePasswordAuthenticationToken(savedUser.getEmail(),
+    return new UsernamePasswordAuthenticationToken(savedUser.getEmail(),
         savedUser.getPassword());
-    SecurityContextHolder.getContext().setAuthentication(authentication);
-
-    String jwt = JwtUtils.generateToken(email);
-
-    JwtResponse res = new JwtResponse();
-    res.setJwt(jwt);
-    res.setAuthenticated(true);
-    res.setError(false);
-    res.setErrorDetails(null);
-    res.setRole(UserRole.USER);
-    res.setMessage("Account created successfully");
-
-    return new ResponseEntity<>(res, HttpStatus.ACCEPTED);
   }
 
   @Override
-  public ResponseEntity<JwtResponse> login(LoginRequest req) {
+  public Authentication login(LoginRequest req) {
     String email = req.getEmail();
     String passwrod = req.getPassword();
     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
         email, passwrod);
-    Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-    SecurityContextHolder.getContext().setAuthentication(authentication);
-
-    String jwt = JwtUtils.generateToken(email);
-
-    JwtResponse res = new JwtResponse();
-    res.setJwt(jwt);
-    res.setAuthenticated(true);
-    res.setError(false);
-    res.setErrorDetails(null);
-    res.setRole(UserRole.USER);
-    res.setMessage("Login successfully");
-
-    return new ResponseEntity<>(res, HttpStatus.ACCEPTED);
+    return authenticationManager.authenticate(usernamePasswordAuthenticationToken);
   }
 
 }
