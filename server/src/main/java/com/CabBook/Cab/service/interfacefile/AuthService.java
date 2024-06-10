@@ -11,4 +11,5 @@ public interface AuthService {
   public Authentication signUp(@RequestBody SignupRequest req) throws Exception;
 
   public Authentication login(@RequestBody LoginRequest req);
+
 }
