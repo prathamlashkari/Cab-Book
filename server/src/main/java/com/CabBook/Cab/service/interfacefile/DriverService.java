@@ -23,5 +23,5 @@ public interface DriverService {
 
   public Driver findDriverById(String driverId) throws DriverException;
 
-  public List<Ride> completedRids(String driverId) throws DriverException;
+  public List<Ride> completedRides(String driverId) throws DriverException;
 }
