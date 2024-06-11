@@ -66,7 +66,7 @@ public class AuthController {
     response.setAuthenticated(true);
     response.setError(false);
     response.setErrorDetails(null);
-    response.setRole(UserRole.USER);
+    response.setRole(UserRole.DRIVER);
     response.setMessage("Singup Successfully");
 
     return new ResponseEntity<JwtResponse>(response, HttpStatus.ACCEPTED);
