@@ -30,11 +30,9 @@ public class Driver {
 
   private String liscenseId;
 
-  @DBRef
-  private List<Ride> rides;
+  private List<String> rides;
   private String vehicleId;
-  @DBRef
-  private Ride currRide;
+  private String currRide;
   private Integer totalRevenuse = 0;
 
 }
