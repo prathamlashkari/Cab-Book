@@ -170,7 +170,11 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public Driver findDriverById(String driverId) throws DriverException {
-
+        Optional<Driver> driver = driverRepository.findById(driverId);
+        if (!driver.isPresent()) {
+            throw new DriverException("Driver not found");
+        }
+        return driver.get();
     }
 
     @Override
