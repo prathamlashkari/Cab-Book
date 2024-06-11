@@ -1,6 +1,8 @@
 package com.CabBook.cab.service.classfile;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,8 +73,27 @@ public class RideServiceImpl implements RideService {
   }
 
   @Override
-  public void acceptRide(String rideId) throws RideException {
-    throw new UnsupportedOperationException("Unimplemented method 'acceptRide'");
+  public void acceptRide(String rideId) throws RideException, DriverException {
+    Optional<Ride> ride = rideRepository.findById(rideId);
+    if (ride.isEmpty())
+      throw new RideException("Ride not found");
+
+    ride.get().setStatus(RideStatus.ACCEPTED);
+    String driverId = ride.get().getDriverId();
+
+    Driver driver = driverService.findDriverById(driverId);
+
+    if (driver == null)
+      throw new DriverException("Drive not found for this ride");
+
+    driver.setCurrRideId(ride.get().getId());
+
+    Random random = new Random();
+    int otp = random.nextInt(9000) + 1000;
+    ride.get().setOpt(otp);
+
+    driverRepository.save(driver);
+    rideRepository.save(ride.get());
   }
 
   @Override

@@ -14,7 +14,7 @@ public interface RideService {
   public Ride createRideRequest(User user, Driver nearsDriver, double pickupLatitiude, double pickupLongitude,
       double destinationLatitude, double destinationLongitude, String pickupArea, String destinationArea);
 
-  public void acceptRide(String rideId) throws RideException;
+  public void acceptRide(String rideId) throws RideException, DriverException;
 
   public void desliceRide(String rideId, String driveId) throws RideException;
 
