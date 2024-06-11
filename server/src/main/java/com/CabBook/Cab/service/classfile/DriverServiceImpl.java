@@ -66,6 +66,7 @@ public class DriverServiceImpl implements DriverService {
         return driver;
     }
 
+    @SuppressWarnings("unlikely-arg-type")
     @Override
     public List<Driver> getAvailableDrivers(double pickupLatitude, double pickupLongitude, double radius, Ride ride) {
 
