@@ -3,6 +3,9 @@ package com.CabBook.cab.utils;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class Calculator {
 
   private static final int Earth_Radius = 6371;
