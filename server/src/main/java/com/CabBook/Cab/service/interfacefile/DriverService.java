@@ -11,7 +11,7 @@ public interface DriverService {
 
   public Driver registerDriver(DriversSignupRequest req);
 
-  public List<Driver> getAvailableDrivers(double pickupLatitude, double pickupLongitude, double radius, Ride ride);
+  public List<Driver> getAvailableDrivers(double pickupLatitude, double pickupLongitude, Ride ride);
 
   public Driver findNearesetDriver(List<Driver> availableDrivers, double pickupLatitude, double pickupLongitude);
 

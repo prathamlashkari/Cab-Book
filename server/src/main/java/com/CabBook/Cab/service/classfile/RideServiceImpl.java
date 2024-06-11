@@ -1,27 +1,73 @@
 package com.CabBook.cab.service.classfile;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.CabBook.cab.enums.RideStatus;
 import com.CabBook.cab.exceptions.DriverException;
 import com.CabBook.cab.exceptions.RideException;
 import com.CabBook.cab.models.Driver;
 import com.CabBook.cab.models.Ride;
 import com.CabBook.cab.models.User;
+import com.CabBook.cab.repository.DriverRepository;
+import com.CabBook.cab.repository.RideRepository;
 import com.CabBook.cab.request.RideRequest;
+import com.CabBook.cab.service.interfacefile.DriverService;
 import com.CabBook.cab.service.interfacefile.RideService;
+import com.CabBook.cab.utils.Calculator;
 
 @Service
 public class RideServiceImpl implements RideService {
 
+  @Autowired
+  private DriverService driverService;
+  @Autowired
+  private RideRepository rideRepository;
+  @Autowired
+  private Calculator calculator;
+  @Autowired
+  private DriverRepository driverRepository;
+
   @Override
-  public Ride createRide(RideRequest rideRequest, User user) throws DriverException {
-    throw new UnsupportedOperationException("Unimplemented method 'createRide'");
+  public Ride requestRide(RideRequest rideRequest, User user) throws DriverException {
+    double pickupLatitude = rideRequest.getPickupLatitude();
+    double pickupLongitude = rideRequest.getPickupLongitude();
+    double destinationLatitude = rideRequest.getDestinationLatitude();
+    double destinationLongitude = rideRequest.getPickupLongitude();
+    String pickUpArea = rideRequest.getPickupArea();
+    String destinationArea = rideRequest.getDestinationArea();
+
+    Ride existingRide = new Ride();
+    List<Driver> availableDrivers = driverService.getAvailableDrivers(pickupLatitude, pickupLongitude, existingRide);
+    Driver nearestDriver = driverService.findNearesetDriver(availableDrivers, pickupLatitude, pickupLongitude);
+
+    if (nearestDriver == null) {
+      throw new DriverException("Driver not found");
+    }
+
+    Ride ride = createRideRequest(user, nearestDriver, pickupLatitude, pickupLongitude, destinationLatitude,
+        destinationLongitude, pickUpArea, destinationArea);
+    return ride;
   }
 
   @Override
   public Ride createRideRequest(User user, Driver nearsDriver, double pickupLatitiude, double pickupLongitude,
       double destinationLatitude, double destinationLongitude, String pickupArea, String destinationArea) {
-    throw new UnsupportedOperationException("Unimplemented method 'createRideRequest'");
+
+    Ride ride = new Ride();
+    ride.setDriverId(nearsDriver.getId());
+    ride.setUserId(user.getId());
+    ride.setPickupLatitude(pickupLatitiude);
+    ride.setPickupLongitude(pickupLongitude);
+    ride.setDestinationArea(destinationArea);
+    ride.setDestinationLongitude(destinationLongitude);
+    ride.setStatus(RideStatus.REQUESTED);
+    ride.setPickupArea(pickupArea);
+    ride.setDestinationArea(destinationArea);
+
+    return rideRepository.save(ride);
   }
 
   @Override

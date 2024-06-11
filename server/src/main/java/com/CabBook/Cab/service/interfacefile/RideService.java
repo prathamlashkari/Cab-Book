@@ -9,7 +9,7 @@ import com.CabBook.cab.request.RideRequest;
 
 public interface RideService {
 
-  public Ride createRide(RideRequest rideRequest, User user) throws DriverException;
+  public Ride requestRide(RideRequest rideRequest, User user) throws DriverException;
 
   public Ride createRideRequest(User user, Driver nearsDriver, double pickupLatitiude, double pickupLongitude,
       double destinationLatitude, double destinationLongitude, String pickupArea, String destinationArea);

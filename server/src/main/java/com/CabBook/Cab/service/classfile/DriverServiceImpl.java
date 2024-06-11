@@ -69,7 +69,7 @@ public class DriverServiceImpl implements DriverService {
 
     @SuppressWarnings("unlikely-arg-type")
     @Override
-    public List<Driver> getAvailableDrivers(double pickupLatitude, double pickupLongitude, double radius, Ride ride) {
+    public List<Driver> getAvailableDrivers(double pickupLatitude, double pickupLongitude, Ride ride) {
 
         List<Driver> allDrivers = driverRepository.findAll();
         List<Driver> availableDrivers = new ArrayList<>();
@@ -97,9 +97,8 @@ public class DriverServiceImpl implements DriverService {
             double distance = distanceCalculater.calculateDistance(driverLatitude, driverLongitude, pickupLatitude,
                     pickupLongitude);
 
-            if (distance <= radius) {
-                availableDrivers.add(driver);
-            }
+            availableDrivers.add(driver);
+
         }
 
         return availableDrivers;
