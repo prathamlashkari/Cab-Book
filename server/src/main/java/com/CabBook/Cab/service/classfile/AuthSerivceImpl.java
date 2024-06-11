@@ -5,6 +5,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import com.CabBook.cab.enums.UserRole;
 import com.CabBook.cab.exceptions.UserException;
@@ -14,6 +15,7 @@ import com.CabBook.cab.request.LoginRequest;
 import com.CabBook.cab.request.SignupRequest;
 import com.CabBook.cab.service.interfacefile.AuthService;
 
+@Service
 public class AuthSerivceImpl implements AuthService {
 
   @Autowired
