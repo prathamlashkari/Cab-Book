@@ -2,6 +2,7 @@ package com.CabBook.cab.service.classfile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -70,26 +71,38 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public List<Driver> getAvailableDrivers(double pickupLatitude, double pickupLongitude, double radius, Ride ride) {
 
-        List<Driver> allList = driverRepository.findAll();
-        List<Driver> availabDrivers = new ArrayList<>();
+        List<Driver> allDrivers = driverRepository.findAll();
+        List<Driver> availableDrivers = new ArrayList<>();
 
-        for (Driver driver : allList) {
-            if (driver.getCurrRide() != null && driver.getCurrRide().getStatus() != RideStatus.COMPLETED) {
-                continue;
+        for (Driver driver : allDrivers) {
+            String currRideId = driver.getCurrRideId();
+
+            if (currRideId != null && !currRideId.isEmpty()) {
+                Optional<Ride> currRideOpt = rideRepository.findById(currRideId);
+                if (currRideOpt.isPresent()) {
+                    Ride currRide = currRideOpt.get();
+                    if (currRide.getStatus() != RideStatus.COMPLETED) {
+                        continue;
+                    }
+                }
             }
+
             if (ride.getDeclinedDrivers().contains(driver.getId())) {
                 continue;
             }
-            double dirverLatitude = driver.getLatitude();
+
+            double driverLatitude = driver.getLatitude();
             double driverLongitude = driver.getLongitude();
 
-            double distance = distanceCalculater.calculateDistance(dirverLatitude, driverLongitude, pickupLatitude,
+            double distance = distanceCalculater.calculateDistance(driverLatitude, driverLongitude, pickupLatitude,
                     pickupLongitude);
+
             if (distance <= radius) {
-                availabDrivers.add(driver);
+                availableDrivers.add(driver);
             }
         }
-        return availabDrivers;
+
+        return availableDrivers;
     }
 
     @Override
@@ -123,19 +136,41 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public Ride getDrirversCurrentRide(String driverId) throws DriverException {
+        Optional<Driver> driverOptional = driverRepository.findById(driverId);
 
-        Driver driver = findDriverById(driverId);
-        return driver.getCurrRide();
+        if (driverOptional.isEmpty()) {
+            throw new DriverException("Driver not found with id: " + driverId);
+        }
+
+        Driver driver = driverOptional.get();
+
+        String rideId = driver.getCurrRideId();
+
+        if (rideId == null || rideId.isEmpty()) {
+            throw new DriverException("Current ride not found for driver with id: " + driverId);
+        }
+
+        Optional<Ride> curRideOptional = rideRepository.findById(rideId);
+
+        if (curRideOptional.isEmpty()) {
+            throw new DriverException("Current ride not found with id: " + rideId);
+        }
+        return curRideOptional.get();
     }
 
     @Override
     public List<Ride> getAllocatedRides(String driverId) throws DriverException {
-        throw new UnsupportedOperationException("Unimplemented method 'getAllocatedRides'");
+        Optional<Driver> driver = driverRepository.findById(driverId);
+        if (!driver.isPresent()) {
+            throw new DriverException("Driver not found");
+        }
+        List<Ride> allocatedRides = rideRepository.findByDriverIdAndStatus(driverId, RideStatus.REQUESTED);
+        return allocatedRides;
     }
 
     @Override
     public Driver findDriverById(String driverId) throws DriverException {
-        throw new UnsupportedOperationException("Unimplemented method 'findDriverById'");
+
     }
 
     @Override
