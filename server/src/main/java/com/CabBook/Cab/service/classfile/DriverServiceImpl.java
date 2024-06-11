@@ -178,12 +178,12 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
-    public List<Ride> completedRides(String driverId) throws DriverException {
-        Optional<Driver> driver = driverRepository.findById(driverId);
-        if (driver.isEmpty()) {
+    public List<Ride> getCompletedRides(String jwt) throws DriverException {
+        Driver driver = getReqDriverProfile(jwt);
+        if (driver == null) {
             throw new DriverException("Driver not found");
         }
-        List<Ride> completedRides = rideRepository.findByDriverIdAndStatus(driverId, RideStatus.COMPLETED);
+        List<Ride> completedRides = rideRepository.findByDriverIdAndStatus(driver.getId(), RideStatus.COMPLETED);
         return completedRides;
     }
 
