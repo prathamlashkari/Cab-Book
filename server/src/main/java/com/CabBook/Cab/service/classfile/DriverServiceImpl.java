@@ -179,7 +179,12 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public List<Ride> completedRides(String driverId) throws DriverException {
-        throw new UnsupportedOperationException("Unimplemented method 'completedRides'");
+        Optional<Driver> driver = driverRepository.findById(driverId);
+        if (driver.isEmpty()) {
+            throw new DriverException("Driver not found");
+        }
+        List<Ride> completedRides = rideRepository.findByDriverIdAndStatus(driverId, RideStatus.COMPLETED);
+        return completedRides;
     }
 
 }
