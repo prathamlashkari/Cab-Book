@@ -16,7 +16,7 @@ public interface RideService {
 
   public void acceptRide(String rideId) throws RideException, DriverException;
 
-  public void desliceRide(String rideId, String driveId) throws RideException;
+  public void declineRide(String rideId, String driveId) throws RideException;
 
   public void startRide(String rideId, int opt) throws RideException;
 

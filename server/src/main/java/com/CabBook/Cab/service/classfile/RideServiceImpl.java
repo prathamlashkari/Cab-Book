@@ -97,7 +97,7 @@ public class RideServiceImpl implements RideService {
   }
 
   @Override
-  public void desliceRide(String rideId, String driveId) throws RideException {
+  public void declineRide(String rideId, String driveId) throws RideException {
 
   }
 
