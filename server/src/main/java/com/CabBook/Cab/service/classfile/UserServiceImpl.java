@@ -32,7 +32,11 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User findUserById(String userId) throws UserException {
-    throw new UnsupportedOperationException("Unimplemented method 'findUserById'");
+    Optional<User> userOptional = userRepository.findById(userId);
+    if (userOptional.isEmpty()) {
+      throw new UserException("User not found");
+    }
+    return userOptional.get();
   }
 
   @Override
