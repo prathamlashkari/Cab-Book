@@ -1,5 +1,6 @@
 package com.CabBook.cab.service.classfile;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -123,7 +124,21 @@ public class RideServiceImpl implements RideService {
 
   @Override
   public void completeRide(String rideId) throws RideException {
-    throw new UnsupportedOperationException("Unimplemented method 'completeRide'");
+    Ride ride = findRideById(rideId);
+    ride.setStatus(RideStatus.COMPLETED);
+    ride.setEndTime(LocalDateTime.now());
+    double distance = calculator.calculateDistance(ride.getDestinationLatitude(), ride.getDestinationLongitude(),
+        ride.getPickupLatitude(), ride.getPickupLongitude());
+
+    LocalDateTime start = ride.getStarTime();
+    LocalDateTime end = ride.getEndTime();
+    Duration duration = Duration.between(start, end);
+    long milliSeccond = duration.toMillis();
+
+    double fare = calculator.calculateFare(distance);
+    ride.setDistance(Math.round(distance * 100.0) / 100.0);
+    ride.setFare((int) Math.round(fare));
+    ride.setDuration(milliSeccond);
   }
 
   @Override
