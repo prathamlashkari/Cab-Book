@@ -123,7 +123,7 @@ public class RideServiceImpl implements RideService {
   }
 
   @Override
-  public void completeRide(String rideId) throws RideException {
+  public void completeRide(String rideId) throws RideException, DriverException {
     Ride ride = findRideById(rideId);
     ride.setStatus(RideStatus.COMPLETED);
     ride.setEndTime(LocalDateTime.now());
@@ -139,6 +139,18 @@ public class RideServiceImpl implements RideService {
     ride.setDistance(Math.round(distance * 100.0) / 100.0);
     ride.setFare((int) Math.round(fare));
     ride.setDuration(milliSeccond);
+    ride.setEndTime(LocalDateTime.now());
+
+    String driverId = ride.getDriverId();
+    Driver driver = driverService.findDriverById(driverId);
+    driver.getRides().add(ride.getId());
+    driver.setCurrRideId(null);
+
+    Integer driverRevenue = (int) (driver.getTotalRevenuse() + Math.round(fare * 0.8));
+    driver.setTotalRevenuse(driverRevenue);
+    driverRepository.save(driver);
+    rideRepository.save(ride);
+
   }
 
   @Override

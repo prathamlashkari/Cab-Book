@@ -20,7 +20,7 @@ public interface RideService {
 
   public void startRide(String rideId, int opt) throws RideException;
 
-  public void completeRide(String rideId) throws RideException;
+  public void completeRide(String rideId) throws RideException, DriverException;
 
   public void cancelRide(String rideId) throws RideException;
 
