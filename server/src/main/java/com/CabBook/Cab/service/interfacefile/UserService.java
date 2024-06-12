@@ -8,8 +8,6 @@ import com.CabBook.cab.models.User;
 
 public interface UserService {
 
-  public User createUser(User user) throws UserException;
-
   public User getReqUserProfile(String token) throws UserException;
 
   public User findUserById(String userId) throws UserException;

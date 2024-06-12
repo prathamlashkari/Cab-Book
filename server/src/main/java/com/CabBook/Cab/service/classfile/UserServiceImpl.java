@@ -20,11 +20,6 @@ public class UserServiceImpl implements UserService {
   private UserRepository userRepository;
 
   @Override
-  public User createUser(User user) throws UserException {
-    throw new UnsupportedOperationException("Unimplemented method 'createUser'");
-  }
-
-  @Override
   public User getReqUserProfile(String token) throws UserException {
     Optional<String> email = JwtUtils.getEmailFromToken(token);
     User user = userRepository.findByEmail(email.get());
