@@ -155,12 +155,18 @@ public class RideServiceImpl implements RideService {
 
   @Override
   public void cancelRide(String rideId) throws RideException {
-    throw new UnsupportedOperationException("Unimplemented method 'cancelRide'");
+    Ride ride = findRideById(rideId);
+    ride.setStatus(RideStatus.CANCELLED);
+    rideRepository.save(ride);
   }
 
   @Override
   public Ride findRideById(String rideId) throws RideException {
-    throw new UnsupportedOperationException("Unimplemented method 'findRideById'");
+    Optional<Ride> ride = rideRepository.findById(rideId);
+    if (ride.isEmpty()) {
+      throw new RideException("Ride not found");
+    }
+    return ride.get();
   }
 
 }
