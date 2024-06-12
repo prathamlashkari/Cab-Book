@@ -98,7 +98,7 @@ public class RideServiceImpl implements RideService {
 
   @Override
   public void desliceRide(String rideId, String driveId) throws RideException {
-    throw new UnsupportedOperationException("Unimplemented method 'desliceRide'");
+
   }
 
   @Override
