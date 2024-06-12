@@ -24,7 +24,7 @@ public class Ride {
   private String userId;
   private String driverId;
 
-  private List<Integer> declinedDrivers = new ArrayList<>();
+  private List<String> declinedDrivers = new ArrayList<>();
   private double pickupLatitude;
   private double pickupLongitude;
   private double destinationLatitude;

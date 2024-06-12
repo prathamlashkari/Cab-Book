@@ -98,7 +98,15 @@ public class RideServiceImpl implements RideService {
 
   @Override
   public void declineRide(String rideId, String driveId) throws RideException {
+    Ride ride = findRideById(rideId);
+    ride.getDeclinedDrivers().add(driveId);
 
+    List<Driver> availabeDrivers = driverService.getAvailableDrivers(ride.getPickupLatitude(),
+        ride.getPickupLongitude(), ride);
+    Driver nearestDriver = driverService.findNearesetDriver(availabeDrivers, ride.getPickupLatitude(),
+        ride.getPickupLongitude());
+    ride.setDriverId(nearestDriver.getId());
+    rideRepository.save(ride);
   }
 
   @Override
