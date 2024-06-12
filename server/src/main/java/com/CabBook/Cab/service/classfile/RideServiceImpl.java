@@ -1,5 +1,6 @@
 package com.CabBook.cab.service.classfile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -111,7 +112,13 @@ public class RideServiceImpl implements RideService {
 
   @Override
   public void startRide(String rideId, int opt) throws RideException {
-    throw new UnsupportedOperationException("Unimplemented method 'startRide'");
+    Ride ride = findRideById(rideId);
+    if (opt != ride.getOpt()) {
+      throw new RideException("Please provide a valid opt");
+    }
+    ride.setStatus(RideStatus.STARTED);
+    ride.setStarTime(LocalDateTime.now());
+    rideRepository.save(ride);
   }
 
   @Override
