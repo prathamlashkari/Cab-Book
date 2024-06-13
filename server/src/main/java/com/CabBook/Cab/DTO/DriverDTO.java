@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DriverDTO {
 
-  private Integer id;
+  private String id;
   private String name;
   private String email;
   private double mobile;

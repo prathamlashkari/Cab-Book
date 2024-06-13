@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RideDTO {
 
-  private Integer id;
+  private String id;
   private UserDTO user;
   private DriverDTO driver;
   private double pickupLatitude;
