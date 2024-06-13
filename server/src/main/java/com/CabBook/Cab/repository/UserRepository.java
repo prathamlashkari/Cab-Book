@@ -15,6 +15,6 @@ import com.CabBook.cab.models.User;
 public interface UserRepository extends MongoRepository<User, String> {
   public User findByEmail(String email);
 
-  @Query("select r form ride where r.status = COMPLETED and r.userid=:userId")
-  public List<Ride> getCompleteRide(@Param("userId") String userId);
+  @Query("{ 'status': 'COMPLETED', 'driverId': :driverId }")
+  public List<Ride> getCompletedRides(@Param("driverId") String driverId);
 }
