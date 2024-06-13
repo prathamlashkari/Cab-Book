@@ -41,12 +41,18 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User findUserByEmail(String email) throws UserException {
-    throw new UnsupportedOperationException("Unimplemented method 'findUserByEmail'");
+    User user = userRepository.findByEmail(email);
+    if (user == null) {
+      throw new UserException("User not found");
+    }
+    return user;
   }
 
   @Override
   public User findUserByToken(String token) throws UserException {
-    throw new UnsupportedOperationException("Unimplemented method 'findUserByToken'");
+    Optional<String> email = JwtUtils.getEmailFromToken(token);
+    User user = findUserByEmail(email.get());
+    return user;
   }
 
   @Override
