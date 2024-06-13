@@ -11,7 +11,6 @@ import com.CabBook.cab.service.interfacefile.RideService;
 @RequestMapping("/api/rides")
 public class Ridecontroller {
 
-  @SuppressWarnings("unused")
   @Autowired
   private DriverService driverService;
 
