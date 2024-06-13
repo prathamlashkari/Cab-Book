@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.CabBook.cab.DTO.DtoMapper;
 import com.CabBook.cab.DTO.RideDTO;
+import com.CabBook.cab.exceptions.DriverException;
+import com.CabBook.cab.exceptions.UserException;
 import com.CabBook.cab.models.Ride;
 import com.CabBook.cab.models.User;
 import com.CabBook.cab.request.RideRequest;
@@ -32,7 +35,7 @@ public class Ridecontroller {
 
   @PostMapping
   public ResponseEntity<RideDTO> userRequestRideHandler(@RequestBody RideRequest rideRequest,
-      @RequestHeader("Authorization") String jwt) {
+      @RequestHeader("Authorization") String jwt) throws DriverException, UserException {
     User user = userService.findUserByToken(jwt);
     Ride ride = rideService.requestRide(rideRequest, user);
     RideDTO rideDto = DtoMapper.toRideDto(ride);
