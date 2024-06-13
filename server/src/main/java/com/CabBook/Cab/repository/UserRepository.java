@@ -2,7 +2,6 @@ package com.CabBook.cab.repository;
 
 import java.util.List;
 
-import org.springframework.data.annotation.QueryAnnotation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.query.Param;
