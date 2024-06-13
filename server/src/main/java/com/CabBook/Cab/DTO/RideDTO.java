@@ -2,11 +2,10 @@ package com.CabBook.cab.DTO;
 
 import java.time.LocalDateTime;
 
-import org.springframework.data.convert.Jsr310Converters.LocalDateTimeToDateConverter;
-
 import com.CabBook.cab.enums.RideStatus;
 import com.CabBook.cab.models.PaymentDetails;
 
+@SuppressWarnings("unused")
 public class RideDTO {
 
   private Integer id;
