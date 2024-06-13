@@ -5,7 +5,13 @@ import java.time.LocalDateTime;
 import com.CabBook.cab.enums.RideStatus;
 import com.CabBook.cab.models.PaymentDetails;
 
-@SuppressWarnings("unused")
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class RideDTO {
 
   private Integer id;

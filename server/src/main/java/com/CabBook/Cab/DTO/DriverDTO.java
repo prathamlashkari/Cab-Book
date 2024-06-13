@@ -3,6 +3,13 @@ package com.CabBook.cab.DTO;
 import com.CabBook.cab.enums.UserRole;
 import com.CabBook.cab.models.Vehicle;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class DriverDTO {
 
   private Integer id;
