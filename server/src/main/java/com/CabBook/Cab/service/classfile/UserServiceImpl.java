@@ -57,7 +57,8 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public List<Ride> completeRide(String userId) throws UserException {
-    throw new UnsupportedOperationException("Unimplemented method 'completeRide'");
+    List<Ride> completeRides = userRepository.getCompletedRides(userId);
+    return completeRides;
   }
 
 }
