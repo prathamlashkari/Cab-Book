@@ -31,6 +31,7 @@ public class SecurityFilterChainClass {
     https.csrf(csrfConfig -> csrfConfig.disable());
 
     https.authorizeHttpRequests(authConfig -> authConfig.requestMatchers("/api/auth/**").permitAll()
+        .requestMatchers("/").permitAll()
         .requestMatchers("/swagger-ul/**", "/").permitAll()
         .requestMatchers("/ws/**").permitAll()
         .anyRequest().authenticated());
