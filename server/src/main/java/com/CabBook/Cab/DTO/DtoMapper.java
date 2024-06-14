@@ -40,6 +40,20 @@ public class DtoMapper {
     rideDTO.setDestinationLongitude(ride.getPickupLongitude());
     rideDTO.setDriverId(ride.getDriverId());
     rideDTO.setUserId(ride.getUserId());
+    rideDTO.setDistance(ride.getDistance());
+    rideDTO.setFare(ride.getFare());
+    rideDTO.setId(ride.getId());
+    rideDTO.setDuration(ride.getDuration());
+    rideDTO.setEndTime(ride.getEndTime());
+    rideDTO.setPickupLatitude(ride.getPickupLatitude());
+    rideDTO.setPickupLongitude(ride.getPickupLongitude());
+    rideDTO.setDestinationArea(ride.getDestinationArea());
+    rideDTO.setPaymentDetails(ride.getPaymentDetails());
+    rideDTO.setOpt(ride.getOpt());
+    rideDTO.setStartTime(ride.getStarTime());
+    rideDTO.setStatus(ride.getStatus());
+
+    return rideDTO;
 
   }
 
