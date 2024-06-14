@@ -18,9 +18,11 @@ import com.CabBook.cab.DTO.RideDTO;
 import com.CabBook.cab.exceptions.DriverException;
 import com.CabBook.cab.exceptions.RideException;
 import com.CabBook.cab.exceptions.UserException;
+import com.CabBook.cab.models.Driver;
 import com.CabBook.cab.models.Ride;
 import com.CabBook.cab.models.User;
 import com.CabBook.cab.request.RideRequest;
+import com.CabBook.cab.request.StartRideRequest;
 import com.CabBook.cab.response.MessageResponse;
 import com.CabBook.cab.service.interfacefile.DriverService;
 import com.CabBook.cab.service.interfacefile.RideService;
@@ -48,13 +50,39 @@ public class Ridecontroller {
     return new ResponseEntity<>(rideDto, HttpStatus.ACCEPTED);
   }
 
-  @PutMapping
+  @PutMapping("/{rideId}/accept")
   public ResponseEntity<MessageResponse> acceptRideHandler(@PathVariable String rideId)
       throws UserException, RideException, DriverException {
 
     rideService.acceptRide(rideId);
     MessageResponse messageResponse = new MessageResponse("Ride Accepted By Driver");
     return new ResponseEntity<>(messageResponse, HttpStatus.ACCEPTED);
+  }
+
+  @PutMapping("/{rideId}/decline")
+  public ResponseEntity<MessageResponse> declineRideHandler(@RequestHeader("Authorization") String jwt,
+      @PathVariable String rideId) throws UserException, RideException, DriverException {
+
+    Driver driver = driverService.getReqDriverProfile(jwt);
+    rideService.declineRide(rideId, driver.getId());
+    MessageResponse res = new MessageResponse("Ride decline by driver");
+    return new ResponseEntity<>(res, HttpStatus.ACCEPTED);
+  }
+
+  @PutMapping("/{rideId}/start")
+  public ResponseEntity<MessageResponse> rideStartHandler(@PathVariable String rideId,
+      @RequestBody StartRideRequest req) throws RideException {
+    rideService.startRide(rideId, req.getOtp());
+    MessageResponse res = new MessageResponse("Ride is started");
+    return new ResponseEntity<>(res, HttpStatus.ACCEPTED);
+  }
+
+  @PutMapping("/{rideId}/complete")
+  public ResponseEntity<MessageResponse> rideCompleteHandler(@PathVariable String rideId)
+      throws UserException, RideException, DriverException {
+    rideService.completeRide(rideId);
+    MessageResponse msg = new MessageResponse("Ride is Completed Thank You For booking cab");
+    return new ResponseEntity<>(msg, HttpStatus.ACCEPTED);
 
   }
 
