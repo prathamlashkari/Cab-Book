@@ -1,10 +1,9 @@
 package com.CabBook.cab.controller;
 
-import javax.annotation.processing.Messager;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -83,7 +82,13 @@ public class Ridecontroller {
     rideService.completeRide(rideId);
     MessageResponse msg = new MessageResponse("Ride is Completed Thank You For booking cab");
     return new ResponseEntity<>(msg, HttpStatus.ACCEPTED);
+  }
 
+  @GetMapping("/{rideId}")
+  public ResponseEntity<RideDTO> findRideByHandler(@PathVariable String rideId) throws RideException, UserException {
+    Ride ride = rideService.findRideById(rideId);
+    RideDTO rideDTO = DtoMapper.toRideDto(ride);
+    return new ResponseEntity<>(rideDTO, HttpStatus.ACCEPTED);
   }
 
 }
