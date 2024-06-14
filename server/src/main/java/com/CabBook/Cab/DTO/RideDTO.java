@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 public class RideDTO {
 
   private String id;
-  private UserDTO user;
-  private DriverDTO driver;
+  private String userId;
+  private String driverId;
   private double pickupLatitude;
   private double pickupLongitude;
   private double destinationLatitude;

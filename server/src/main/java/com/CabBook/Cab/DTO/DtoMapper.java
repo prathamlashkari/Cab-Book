@@ -35,7 +35,12 @@ public class DtoMapper {
   }
 
   public static RideDTO toRideDto(Ride ride) {
-    return null;
+    RideDTO rideDTO = new RideDTO();
+    rideDTO.setDestinationLatitude(ride.getDestinationLatitude());
+    rideDTO.setDestinationLongitude(ride.getPickupLongitude());
+    rideDTO.setDriverId(ride.getDriverId());
+    rideDTO.setUserId(ride.getUserId());
+
   }
 
 }
