@@ -27,38 +27,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   @Autowired
   private UserDetailsService userDetailsService;
 
-  @SuppressWarnings("null")
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
-
-    Optional<String> jwtToken = getTokenFromRequest(request);
-
-    jwtToken.ifPresent(jwt -> {
-      if (JwtUtils.validateToken(jwt)) {
-        Optional<String> emailOpt = JwtUtils.getEmailFromToken(jwt);
-        if (emailOpt.isPresent()) {
-          String email = emailOpt.get();
-          UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-          System.out.println(userDetails + "userdetials");
-          UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-              userDetails, null, userDetails.getAuthorities());
-
-          SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-          authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-        }
-      }
-    });
-
-    filterChain.doFilter(request, response);
+    throw new UnsupportedOperationException("Unimplemented method 'doFilterInternal'");
   }
 
-  private Optional<String> getTokenFromRequest(HttpServletRequest request) {
-    String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-    if (StringUtils.hasText(authHeader) && authHeader.startsWith("Bearer ")) {
-      return Optional.of(authHeader.split(" ")[1].trim());
-    }
-    return Optional.empty();
-  }
 }
