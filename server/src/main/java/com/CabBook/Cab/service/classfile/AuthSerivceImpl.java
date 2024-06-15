@@ -56,9 +56,9 @@ public class AuthSerivceImpl implements AuthService {
   public Authentication login(LoginRequest req) {
     String email = req.getEmail();
     String passwrod = req.getPassword();
-    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+    Authentication authentication = new UsernamePasswordAuthenticationToken(
         email, passwrod);
-    return authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+    return authenticationManager.authenticate(authentication);
   }
 
 }

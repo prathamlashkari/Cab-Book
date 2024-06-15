@@ -37,28 +37,27 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     jwtToken.ifPresent(jwt -> {
       if (JwtUtils.validateToken(jwt)) {
         Optional<String> emailOpt = JwtUtils.getEmailFromToken(jwt);
-
         if (emailOpt.isPresent()) {
           String email = emailOpt.get();
           UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-
+          System.out.println(userDetails + "userdetials");
           UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
               userDetails, null, userDetails.getAuthorities());
 
+          SecurityContextHolder.getContext().setAuthentication(authenticationToken);
           authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-          SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
       }
     });
 
-    filterChain.doFilter(request, response); // Ensure the filter chain continues
+    filterChain.doFilter(request, response);
   }
 
   private Optional<String> getTokenFromRequest(HttpServletRequest request) {
     String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
     if (StringUtils.hasText(authHeader) && authHeader.startsWith("Bearer ")) {
-      return Optional.of(authHeader.substring(7));
+      return Optional.of(authHeader.split(" ")[1].trim());
     }
     return Optional.empty();
   }

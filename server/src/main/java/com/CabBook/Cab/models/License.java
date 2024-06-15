@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class License {
 
   @Id
-  private String Id;
+  private String id;
   private String licenseState;
   private String licenseNumber;
   private String licenseExpirationDate;

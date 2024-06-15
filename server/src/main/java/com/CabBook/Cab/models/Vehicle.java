@@ -10,7 +10,7 @@ import lombok.Data;
 public class Vehicle {
 
   @Id
-  private String Id;
+  private String id;
   private String make;
   private String model;
   private String year;

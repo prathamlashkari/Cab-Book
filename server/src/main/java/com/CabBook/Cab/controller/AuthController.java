@@ -26,7 +26,9 @@ import com.CabBook.cab.utils.JwtUtils;
 @RequestMapping("/api/auth")
 public class AuthController {
 
+  @Autowired
   private AuthService authService;
+  @Autowired
   private DriverService driverService;
   @Autowired
   private DriverRepository driverRepository;

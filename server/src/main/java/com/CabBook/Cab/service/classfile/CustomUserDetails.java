@@ -23,7 +23,6 @@ public class CustomUserDetails implements UserDetailsService {
   @Autowired
   private DriverRepository driverRepository;
 
-  @SuppressWarnings({ "unchecked", "rawtypes" })
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
     List<GrantedAuthority> authorities = new ArrayList();

@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class Ride {
 
   @Id
-  private String Id;
+  private String id;
   private String userId;
   private String driverId;
 

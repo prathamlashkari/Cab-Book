@@ -9,10 +9,10 @@ import java.util.UUID;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.CabBook.cab.enums.UserRole;
@@ -26,10 +26,11 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class JwtUtils {
+
   private JwtUtils() {
   }
 
-  private static final String SECRET_KEY_STRING = "ksjfniqhwiotkcjxnvklndfoisiowqerijasdnfjsdhfjgknvmeior";
+  private static final String SECRET_KEY_STRING = "ksjfniqhwiotkowaiehfnffffoiwjedncjxnvklndfoisiowqerijasdnfjsdhfjgknvmeior";
   private static final String ISSUER = "code-with-Golu";
   private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(SECRET_KEY_STRING.getBytes());
 
@@ -39,15 +40,17 @@ public class JwtUtils {
 
   public static Optional<String> getEmailFromToken(String jwtToken) {
     var claimsOptional = parseToken(jwtToken);
-    return claimsOptional.map(claims -> claims.get("email", String.class));
+    return claimsOptional.flatMap(claims -> Optional.ofNullable(claims.getSubject()));
   }
 
-  private static Optional<Claims> parseToken(String jwtToken) {
+  public static Optional<Claims> parseToken(String jwtToken) {
+    log.debug("Parsing JWT token: {}", jwtToken);
     var jwtParser = Jwts.parserBuilder()
         .setSigningKey(SECRET_KEY)
         .build();
     try {
       Claims claims = jwtParser.parseClaimsJws(jwtToken).getBody();
+      log.debug("Parsed claims: {}", claims);
       return Optional.of(claims);
     } catch (JwtException | IllegalArgumentException e) {
       log.error("Jwt Exception occurred: {}", e.getMessage());
