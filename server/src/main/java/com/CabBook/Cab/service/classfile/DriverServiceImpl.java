@@ -125,7 +125,7 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public Driver getReqDriverProfile(String jwt) throws DriverException {
 
-        String email = JwtUtils.generateToken(jwt);
+        String email = JwtUtils.getEmailFromJwt(jwt);
         Driver driver = driverRepository.findByEmail(email);
         if (driver == null) {
             throw new DriverException("Driver not found");

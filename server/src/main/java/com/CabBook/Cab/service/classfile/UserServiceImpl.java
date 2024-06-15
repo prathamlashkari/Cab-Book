@@ -21,8 +21,8 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User getReqUserProfile(String token) throws UserException {
-    Optional<String> email = JwtUtils.getEmailFromToken(token);
-    User user = userRepository.findByEmail(email.get());
+    String email = JwtUtils.getEmailFromJwt(token);
+    User user = userRepository.findByEmail(email);
 
     if (user == null) {
       throw new UserException("User not found");
@@ -50,8 +50,8 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User findUserByToken(String token) throws UserException {
-    Optional<String> email = JwtUtils.getEmailFromToken(token);
-    User user = findUserByEmail(email.get());
+    String email = JwtUtils.getEmailFromJwt(token);
+    User user = findUserByEmail(email);
     return user;
   }
 
