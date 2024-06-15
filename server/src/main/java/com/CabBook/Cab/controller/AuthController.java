@@ -36,13 +36,32 @@ public class AuthController {
   @PostMapping("/user/signup")
   public ResponseEntity<JwtResponse> signUpHandler(@RequestBody SignupRequest req) throws Exception {
     Authentication authentication = authService.signUp(req);
-    return JwtUtils.response(authentication, req.getEmail(), "Account created successfully");
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+    String jwt = JwtUtils.generateJwtToken(authentication);
+    JwtResponse jwtResponse = new JwtResponse();
+    jwtResponse.setAuthenticated(true);
+    jwtResponse.setError(false);
+    jwtResponse.setJwt(jwt);
+    jwtResponse.setErrorDetails(null);
+    jwtResponse.setRole(UserRole.DRIVER);
+    jwtResponse.setMessage("Singup Successfully");
+    return new ResponseEntity<JwtResponse>(jwtResponse, HttpStatus.ACCEPTED);
+
   }
 
   @PostMapping("/login")
   public ResponseEntity<JwtResponse> loginHandler(@RequestBody LoginRequest req) {
     Authentication authentication = authService.login(req);
-    return JwtUtils.response(authentication, req.getEmail(), "Login Successfully");
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+    String jwt = JwtUtils.generateJwtToken(authentication);
+    JwtResponse jwtResponse = new JwtResponse();
+    jwtResponse.setAuthenticated(true);
+    jwtResponse.setError(false);
+    jwtResponse.setJwt(jwt);
+    jwtResponse.setErrorDetails(null);
+    jwtResponse.setRole(UserRole.DRIVER);
+    jwtResponse.setMessage("Singup Successfully");
+    return new ResponseEntity<JwtResponse>(jwtResponse, HttpStatus.ACCEPTED);
   }
 
   @PostMapping("/driver/signup")
@@ -63,7 +82,7 @@ public class AuthController {
         createdDriver.getPassword());
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
-    String jwt = JwtUtils.generateToken(createdDriver.getEmail());
+    String jwt = JwtUtils.generateJwtToken(authentication);
     response.setJwt(jwt);
     response.setAuthenticated(true);
     response.setError(false);
