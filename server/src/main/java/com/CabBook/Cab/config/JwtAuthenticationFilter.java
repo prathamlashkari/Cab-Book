@@ -3,8 +3,6 @@ package com.CabBook.cab.config;
 import java.io.IOException;
 import java.util.List;
 
-import javax.crypto.SecretKey;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,7 +16,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,8 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     jwt = jwt.substring(7);
     try {
       if (jwt != null) {
-        SecretKey key = Keys.hmacShaKeyFor(JwtConstatnts.JWT_KEY.getBytes());
-        Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJwt(jwt).getBody();
+        Claims claims = Jwts.parserBuilder().setSigningKey(JwtConstatnts.key).build().parseClaimsJwt(jwt).getBody();
         String email = String.valueOf(claims.get("username"));
         String authorities = (String) claims.get("authorities");
         List<GrantedAuthority> auths = AuthorityUtils.commaSeparatedStringToAuthorityList(authorities);
