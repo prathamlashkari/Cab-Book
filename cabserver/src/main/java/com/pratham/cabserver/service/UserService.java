@@ -1,4 +1,4 @@
-package com.pratham.cabserver.service.impl;
+package com.pratham.cabserver.service;
 
 import java.util.List;
 
