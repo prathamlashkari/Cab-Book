@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Document(collection = "users")
 public class User {
 
-  @org.springframework.data.annotation.Id
+  @Id
   private String Id;
 
   @Indexed(unique = true)
