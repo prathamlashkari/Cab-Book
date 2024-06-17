@@ -3,13 +3,13 @@ package com.pratham.cabserver.config;
 import java.io.IOException;
 import java.util.List;
 
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.Claims;
@@ -19,7 +19,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@Configuration
+@Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   @SuppressWarnings("null")
@@ -27,7 +27,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
     String jwt = request.getHeader(JwtConstant.Jwt_Header);
-    if (jwt != null) {
+    if (jwt != null && jwt.startsWith("Bearer ")) {
       try {
         jwt = jwt.substring(7);
         Claims claims = Jwts.parserBuilder().setSigningKey(JwtConstant.key).build().parseClaimsJws(jwt).getBody();
@@ -41,6 +41,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       }
 
     }
+    filterChain.doFilter(request, response);
+
   }
 
 }
