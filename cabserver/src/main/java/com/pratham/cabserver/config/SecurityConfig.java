@@ -3,6 +3,7 @@ package com.pratham.cabserver.config;
 import java.util.Arrays;
 import java.util.Collections;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.Nullable;
@@ -20,6 +21,9 @@ import jakarta.servlet.http.HttpServletRequest;
 @Configuration
 public class SecurityConfig {
 
+  @Autowired
+  private JwtAuthenticationFilter jwtAuthenticationFilter;
+
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity https) throws Exception {
 
@@ -31,6 +35,7 @@ public class SecurityConfig {
     https.cors(
         config -> config.configurationSource(new CorsConfigurationSource() {
 
+          @SuppressWarnings("null")
           @Override
           @Nullable
           public CorsConfiguration getCorsConfiguration(HttpServletRequest arg0) {
