@@ -1,7 +1,6 @@
 package com.pratham.cabserver.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +31,7 @@ public class CustomUserServiceImpl implements UserDetailsService {
       return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
     }
     Driver driver = driverRepository.findByEmail(email);
+    return new org.springframework.security.core.userdetails.User(driver.getEmail(), driver.getPassword(), authorities);
   }
 
 }
