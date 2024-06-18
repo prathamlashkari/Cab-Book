@@ -23,6 +23,8 @@ public class JwtUtils {
   public String getEmailFromJwt(String jwt) {
     jwt = jwt.substring(7);
     Claims claims = Jwts.parserBuilder().setSigningKey(JwtConstant.key).build().parseClaimsJws(jwt).getBody();
+    String email = String.valueOf(claims.get("email"));
+    return email;
 
   }
 
