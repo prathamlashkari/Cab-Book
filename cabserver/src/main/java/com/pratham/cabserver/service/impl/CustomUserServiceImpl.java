@@ -31,7 +31,11 @@ public class CustomUserServiceImpl implements UserDetailsService {
       return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
     }
     Driver driver = driverRepository.findByEmail(email);
-    return new org.springframework.security.core.userdetails.User(driver.getEmail(), driver.getPassword(), authorities);
+    if (driver != null) {
+      return new org.springframework.security.core.userdetails.User(driver.getEmail(), driver.getPassword(),
+          authorities);
+    }
+    throw new UsernameNotFoundException("User not found");
   }
 
 }
