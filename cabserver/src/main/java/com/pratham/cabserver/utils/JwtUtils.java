@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 
 import com.pratham.cabserver.config.JwtConstant;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
 public class JwtUtils {
@@ -17,6 +18,12 @@ public class JwtUtils {
         .signWith(JwtConstant.key)
         .compact();
     return jwt;
+  }
+
+  public String getEmailFromJwt(String jwt) {
+    jwt = jwt.substring(7);
+    Claims claims = Jwts.parserBuilder().setSigningKey(JwtConstant.key).build().parseClaimsJws(jwt).getBody();
+
   }
 
 }
