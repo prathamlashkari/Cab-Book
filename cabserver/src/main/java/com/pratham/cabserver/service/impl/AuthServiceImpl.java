@@ -23,7 +23,7 @@ public class AuthServiceImpl implements AuthService {
   private PasswordEncoder passwordEncoder;
 
   @Override
-  public Authentication signUp(SignupRequest req) throws Exception {
+  public Authentication signUp(SignupRequest req) throws UserException {
     String email = req.getEmail();
     String fullname = req.getName();
     String mobile = req.getMobile();
