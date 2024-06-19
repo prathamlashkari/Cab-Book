@@ -30,7 +30,7 @@ public class SecurityConfig {
     https.csrf(config -> config.disable());
     https.sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
     https.authorizeHttpRequests(
-        config -> config.requestMatchers("/api/auth").permitAll()
+        config -> config.requestMatchers("/api/auth/**").permitAll()
             .anyRequest().authenticated());
     https.cors(
         config -> config.configurationSource(new CorsConfigurationSource() {

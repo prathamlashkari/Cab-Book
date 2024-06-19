@@ -44,7 +44,7 @@ public class AuthController {
   @Autowired
   private DriverService driverService;
 
-  @PostMapping("/signup")
+  @PostMapping("/user/signup")
   public ResponseEntity<JwtResponse> signupHandler(@RequestBody SignupRequest req) throws UserException {
 
     Authentication authentication = authService.signUp(req);
