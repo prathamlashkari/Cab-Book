@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -52,10 +53,22 @@ public class AuthController {
     return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
   }
 
-  public ResponseEntity<JwtResponse> loginHandler(@RequestBody LoginRequest req) {
+  @PostMapping("/login")
+  public ResponseEntity<JwtResponse> loginHandler(@RequestBody LoginRequest req) throws Exception {
     String email = req.getEmail();
     String password = req.getPassword();
-    Authentication authentication = Authe
+    Authentication authentication = authenticate(password, email);
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+    String jwt = jwtUtils.generaJwtToken(authentication);
+    JwtResponse jwtResponse = new JwtResponse();
+    jwtResponse.setJwt(jwt);
+    jwtResponse.setAuthenticated(true);
+    jwtResponse.setErrorDetails(null);
+    jwtResponse.setError(false);
+    jwtResponse.setMessage("Login Successfully");
+    jwtResponse.setRole(UserRole.USER);
+    return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
+
   }
 
   private Authentication authenticate(String password, String email) throws Exception {
@@ -63,7 +76,10 @@ public class AuthController {
     if (userDetails != null) {
       throw new BadCredentialsException("Invalid email or password");
     }
-    if(!p)
+    if (!passwordEncoder.matches(password, userDetails.getPassword())) {
+      throw new BadCredentialsException("Invalid username or password");
+    }
+    return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
   }
 
 }
