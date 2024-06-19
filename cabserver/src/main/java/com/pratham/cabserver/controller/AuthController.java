@@ -16,10 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pratham.cabserver.enums.UserRole;
 import com.pratham.cabserver.exceptions.UserException;
+import com.pratham.cabserver.models.Driver;
+import com.pratham.cabserver.repository.DriverRepository;
+import com.pratham.cabserver.request.DriversSignupRequest;
 import com.pratham.cabserver.request.LoginRequest;
 import com.pratham.cabserver.request.SignupRequest;
 import com.pratham.cabserver.response.JwtResponse;
 import com.pratham.cabserver.service.AuthService;
+import com.pratham.cabserver.service.DriverService;
 import com.pratham.cabserver.service.impl.CustomUserServiceImpl;
 import com.pratham.cabserver.utils.JwtUtils;
 
@@ -35,6 +39,10 @@ public class AuthController {
   private CustomUserServiceImpl customUserServiceImpl;
   @Autowired
   private PasswordEncoder passwordEncoder;
+  @Autowired
+  private DriverRepository driverRepository;
+  @Autowired
+  private DriverService driverService;
 
   @PostMapping("/signup")
   public ResponseEntity<JwtResponse> signupHandler(@RequestBody SignupRequest req) throws UserException {
@@ -71,6 +79,7 @@ public class AuthController {
 
   }
 
+  @SuppressWarnings("null")
   private Authentication authenticate(String password, String email) throws Exception {
     UserDetails userDetails = customUserServiceImpl.loadUserByUsername(email);
     if (userDetails != null) {
@@ -80,6 +89,35 @@ public class AuthController {
       throw new BadCredentialsException("Invalid username or password");
     }
     return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+  }
+
+  @PostMapping("/driver/signup")
+  public ResponseEntity<JwtResponse> driverSignUpHandler(@RequestBody DriversSignupRequest req) throws Exception {
+
+    Driver driver = driverRepository.findByEmail(req.getEmail());
+
+    JwtResponse response = new JwtResponse();
+
+    if (driver != null) {
+      response.setAuthenticated(false);
+      response.setErrorDetails("Email Already exists");
+      response.setError(true);
+      return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+    Driver createdDriver = driverService.registerDriver(req);
+    Authentication authentication = new UsernamePasswordAuthenticationToken(createdDriver.getEmail(),
+        createdDriver.getPassword());
+
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+    String jwt = jwtUtils.generaJwtToken(authentication);
+    response.setJwt(jwt);
+    response.setAuthenticated(true);
+    response.setError(false);
+    response.setErrorDetails(null);
+    response.setRole(UserRole.DRIVER);
+    response.setMessage("Singup Successfully");
+
+    return new ResponseEntity<JwtResponse>(response, HttpStatus.ACCEPTED);
   }
 
 }
