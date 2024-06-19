@@ -12,13 +12,14 @@ public class AuthServiceImpl implements AuthService {
 
   @Override
   public Authentication signUp(SignupRequest req) throws Exception {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'signUp'");
+    String email = req.getEmail();
+    String fullname = req.getName();
+    String mobile = req.getMobile();
+    String password = req.getPassword();
   }
 
   @Override
   public Authentication login(LoginRequest req) {
-    // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'login'");
   }
 
