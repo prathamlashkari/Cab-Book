@@ -1,10 +1,13 @@
 package com.pratham.cabserver.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.pratham.cabserver.enums.UserRole;
 import com.pratham.cabserver.exceptions.UserException;
 import com.pratham.cabserver.models.User;
 import com.pratham.cabserver.repository.UserRepository;
@@ -36,8 +39,10 @@ public class AuthServiceImpl implements AuthService {
     newUser.setPassword(passwordEncoder.encode(password));
     newUser.setFullName(fullname);
     newUser.setMobile(mobile);
+    newUser.setRole(UserRole.USER);
     User createdUser = userRepository.save(newUser);
-
+    return new UsernamePasswordAuthenticationToken(createdUser.getEmail(),
+        createdUser.getPassword());
   }
 
   @Override
