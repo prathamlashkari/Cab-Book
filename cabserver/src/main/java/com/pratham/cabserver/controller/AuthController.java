@@ -82,7 +82,7 @@ public class AuthController {
   @SuppressWarnings("null")
   private Authentication authenticate(String password, String email) throws Exception {
     UserDetails userDetails = customUserServiceImpl.loadUserByUsername(email);
-    if (userDetails != null) {
+    if (userDetails == null) {
       throw new BadCredentialsException("Invalid email or password");
     }
     if (!passwordEncoder.matches(password, userDetails.getPassword())) {
