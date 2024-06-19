@@ -3,12 +3,14 @@ package com.pratham.cabserver.utils;
 import java.util.Date;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
 
 import com.pratham.cabserver.config.JwtConstant;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
+@Component
 public class JwtUtils {
 
   public String generaJwtToken(Authentication authentication) {
