@@ -10,7 +10,6 @@ import com.pratham.cabserver.enums.UserRole;
 import com.pratham.cabserver.exceptions.UserException;
 import com.pratham.cabserver.models.User;
 import com.pratham.cabserver.repository.UserRepository;
-import com.pratham.cabserver.request.LoginRequest;
 import com.pratham.cabserver.request.SignupRequest;
 import com.pratham.cabserver.service.AuthService;
 
@@ -42,11 +41,6 @@ public class AuthServiceImpl implements AuthService {
     User createdUser = userRepository.save(newUser);
     return new UsernamePasswordAuthenticationToken(createdUser.getEmail(),
         createdUser.getPassword());
-  }
-
-  @Override
-  public Authentication login(LoginRequest req) {
-    throw new UnsupportedOperationException("Unimplemented method 'login'");
   }
 
 }
